@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Leisha — Build the Future</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #07090f;
+            --panel:     #0d1117;
+            --border:    #1e2d45;
+            --accent:    #3b82f6;
+            --accent2:   #06b6d4;
+            --gold:      #f59e0b;
+            --green:     #10b981;
+            --text:      #e2e8f0;
+            --muted:     #64748b;
+            --soft:      #94a3b8;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* BLUEPRINT GRID BACKGROUND */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* SCANLINE overlay */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.03) 2px,
+                rgba(0,0,0,0.03) 4px
+            );
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wrapper {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        /* ── HEADER ── */
+        .header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            position: relative;
+        }
+
+        .tag-line {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: var(--accent);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .tag-line::before { content: '// '; }
+        .tag-line::after  { content: ' //'; }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4em;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-shadow: 0 0 40px rgba(59,130,246,0.3);
+            margin-bottom: 14px;
+        }
+
+        .designation {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59,130,246,0.08);
+            border: 1px solid rgba(59,130,246,0.25);
+            border-radius: 6px;
+            padding: 8px 20px;
+            font-size: 0.82em;
+            color: var(--accent2);
+            letter-spacing: 1px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .designation .dot {
+            width: 7px; height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: blink 2s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50%       { opacity: 0.2; }
+        }
+
+        /* ── DIVIDER ── */
+        .hr {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), var(--accent), var(--border), transparent);
+            margin: 30px 0;
+            opacity: 0.7;
+        }
+
+        /* ── STAT ROW ── */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px 0;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .stat {
+            flex: 1;
+            text-align: center;
+            padding: 20px 10px;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat-val {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.8em;
+            color: var(--accent);
+            display: block;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .stat-label {
+            font-size: 0.7em;
+            color: var(--muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        /* ── CARD ── */
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 32px 36px;
+            margin: 22px 0;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(59,130,246,0.4);
+            transform: translateY(-2px);
+        }
+
+        .card-corner {
+            position: absolute;
+            top: 0; left: 0;
+            width: 18px; height: 18px;
+            border-top: 2px solid var(--accent);
+            border-left: 2px solid var(--accent);
+            border-radius: 2px 0 0 0;
+        }
+
+        .card-corner-br {
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 18px; height: 18px;
+            border-bottom: 2px solid var(--accent);
+            border-right: 2px solid var(--accent);
+            border-radius: 0 0 2px 0;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .card-title .icon { font-size: 1.5em; }
+
+        .card-title h2 {
+            font-size: 1.05em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--accent);
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .card p {
+            color: var(--soft);
+            line-height: 1.9;
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+        .card p + p { margin-top: 14px; }
+
+        /* ── INTEREST BADGES ── */
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: rgba(59,130,246,0.07);
+            border: 1px solid rgba(59,130,246,0.2);
+            border-radius: 6px;
+            padding: 7px 14px;
+            font-size: 0.85em;
+            color: #93c5fd;
+            transition: background 0.2s;
+        }
+
+        .badge:hover {
+            background: rgba(59,130,246,0.15);
+        }
+
+        /* ── DAD'S LETTER ── */
+        .letter {
+            background: linear-gradient(135deg, #0d1a2d, #0d1117);
+            border: 1px solid rgba(245,158,11,0.25);
+            border-radius: 12px;
+            padding: 40px 42px;
+            margin: 28px 0;
+            position: relative;
+        }
+
+        .letter::before {
+            content: '"';
+            position: absolute;
+            top: 10px; left: 24px;
+            font-family: 'Playfair Display', serif;
+            font-size: 5em;
+            color: rgba(245,158,11,0.15);
+            line-height: 1;
+        }
+
+        .letter-header {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75em;
+            color: var(--gold);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(245,158,11,0.15);
+        }
+
+        .letter p {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.07em;
+            line-height: 2;
+            color: #d1d5db;
+        }
+
+        .letter p + p { margin-top: 18px; }
+
+        .letter .sig {
+            margin-top: 32px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.1em;
+            color: var(--gold);
+            text-align: right;
+        }
+
+        /* ── MISSION WISHES ── */
+        .mission-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .mission-list li {
+            display: grid;
+            grid-template-columns: 28px 1fr;
+            gap: 12px;
+            align-items: flex-start;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: var(--soft);
+            line-height: 1.7;
+            font-size: 0.97em;
+        }
+
+        .mission-list li:last-child { border-bottom: none; }
+
+        .mission-list .num {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8em;
+            color: var(--accent);
+            margin-top: 3px;
+        }
+
+        /* ── TERMINAL QUOTE ── */
+        .terminal {
+            background: #020408;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 24px 28px;
+            margin: 25px 0;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .terminal .t-bar {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 18px;
+        }
+
+        .t-dot {
+            width: 12px; height: 12px;
+            border-radius: 50%;
+        }
+
+        .t-dot.r { background: #ff5f57; }
+        .t-dot.y { background: #febc2e; }
+        .t-dot.g { background: #28c840; }
+
+        .terminal .t-line {
+            font-size: 0.88em;
+            line-height: 2;
+            color: #4ade80;
+        }
+
+        .terminal .t-line .prompt { color: var(--accent2); }
+        .terminal .t-line .cmd    { color: #e2e8f0; }
+        .terminal .t-line .output { color: #94a3b8; }
+        .terminal .t-line .hi     { color: #fde68a; }
+
+        /* ── TRAITS ── */
+        .traits {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .trait {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px 16px;
+        }
+
+        .trait-name {
+            font-size: 0.72em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        .trait-bar-wrap {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            height: 5px;
+            overflow: hidden;
+        }
+
+        .trait-bar {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            animation: fillBar 1.5s ease-out forwards;
+            transform-origin: left;
+        }
+
+        @keyframes fillBar {
+            from { width: 0%; }
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            text-align: center;
+            padding: 40px 20px 10px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.78em;
+            color: var(--muted);
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8em; }
+            .letter { padding: 30px 24px; }
+            .card { padding: 24px 20px; }
+            .stats { flex-wrap: wrap; }
+            .stat { min-width: 50%; border-right: none; border-bottom: 1px solid var(--border); }
+            .traits { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+<div class="wrapper">
+
+    <!-- HEADER -->
+    <header class="header">
+        <p class="tag-line">Personal File</p>
+        <h1>Leisha Shinde</h1>
+        <div class="designation">
+            <span class="dot"></span>
+            B.E. Smart Manufacturing · Future DRDO Engineer
+        </div>
+    </header>
+
+    <!-- STATS -->
+    <div class="stats">
+        <div class="stat">
+            <span class="stat-val">01</span>
+            <span class="stat-label">Elder Daughter</span>
+        </div>
+        <div class="stat">
+            <span class="stat-val">∞</span>
+            <span class="stat-label">Dad's Pride</span>
+        </div>
+        <div class="stat">
+            <span class="stat-val">ME</span>
+            <span class="stat-label">Mech. Engg.</span>
+        </div>
+        <div class="stat">
+            <span class="stat-val">💙</span>
+            <span class="stat-label">Always Missed</span>
+        </div>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- WHO SHE IS -->
+    <div class="card">
+        <div class="card-corner"></div>
+        <div class="card-corner-br"></div>
+        <div class="card-title">
+            <span class="icon">👤</span>
+            <h2>Profile</h2>
+        </div>
+        <p>
+            Caring, wise, and grounded in the best possible way. Leisha doesn't just move through the world — she pays attention to it. She notices people, she remembers what matters, and she shows up for the ones she loves without being asked.
+        </p>
+        <p>
+            That combination of a warm heart and a sharp mind? That's rare. Engineers who actually care about people are the ones who change the world — not just the machines in it.
+        </p>
+        <div class="traits">
+            <div class="trait">
+                <div class="trait-name">Caring</div>
+                <div class="trait-bar-wrap"><div class="trait-bar" style="width:98%"></div></div>
+            </div>
+            <div class="trait">
+                <div class="trait-name">Wisdom</div>
+                <div class="trait-bar-wrap"><div class="trait-bar" style="width:93%"></div></div>
+            </div>
+            <div class="trait">
+                <div class="trait-name">Down to Earth</div>
+                <div class="trait-bar-wrap"><div class="trait-bar" style="width:100%"></div></div>
+            </div>
+            <div class="trait">
+                <div class="trait-name">Determination</div>
+                <div class="trait-bar-wrap"><div class="trait-bar" style="width:96%"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERESTS -->
+    <div class="card">
+        <div class="card-corner"></div>
+        <div class="card-corner-br"></div>
+        <div class="card-title">
+            <span class="icon">⚙️</span>
+            <h2>Interests & Domains</h2>
+        </div>
+        <p>
+            She chose the field where the future is being literally built — and then picked the edge of that field where it gets exciting. Smart Manufacturing, DRDO, drones, robots — this isn't just a course. It's a calling.
+        </p>
+        <div class="badges">
+            <span class="badge">🏭 Smart Manufacturing</span>
+            <span class="badge">🛡️ DRDO</span>
+            <span class="badge">🤖 Robotics</span>
+            <span class="badge">🚁 Drones & UAVs</span>
+            <span class="badge">⚙️ Machine Systems</span>
+            <span class="badge">🔬 Defence Tech</span>
+            <span class="badge">🧠 AI in Engineering</span>
+            <span class="badge">🏗️ Design & Build</span>
+        </div>
+    </div>
+
+    <!-- TERMINAL BLOCK -->
+    <div class="terminal">
+        <div class="t-bar">
+            <div class="t-dot r"></div>
+            <div class="t-dot y"></div>
+            <div class="t-dot g"></div>
+        </div>
+        <div class="t-line"><span class="prompt">leisha@future:~$ </span><span class="cmd">./check_status.sh</span></div>
+        <div class="t-line"><span class="output">[ ✓ ] Hostel life: adapting like a pro</span></div>
+        <div class="t-line"><span class="output">[ ✓ ] Engineering degree: in progress</span></div>
+        <div class="t-line"><span class="output">[ ✓ ] DRDO dream: loading... ████████░░ 80%</span></div>
+        <div class="t-line"><span class="output">[ ✓ ] Dad missing her: </span><span class="hi">ERROR — value exceeds INT_MAX</span></div>
+        <div class="t-line"><span class="output">[ ✓ ] Future outlook: </span><span class="hi">BRIGHT. Adjust your screen brightness.</span></div>
+        <div class="t-line"><span class="prompt">leisha@future:~$ </span><span class="cmd">_</span></div>
+    </div>
+
+    <!-- DAD'S LETTER -->
+    <div class="letter">
+        <div class="letter-header">// Personal Message · From Dad</div>
+        <p>
+            My dear Leisha,
+        </p>
+        <p>
+            The house feels quieter with you away. Not in a bad way — in that way that makes you realise how much warmth a person carries with them without even trying. That's you. You've always had that. Caring without making it a show, wise without making others feel small.
+        </p>
+        <p>
+            I miss you a lot. More than I probably say. But I also think about what you're building out there — in college, in the hostel, in yourself — and I feel something stronger than missing. I feel <em>proud</em>.
+        </p>
+        <p>
+            You chose Mechanical Engineering when you could have chosen anything. You chose Smart Manufacturing when others were still figuring out what "smart" means. You're drawn to DRDO, to drones, to machines that do extraordinary things — and I see you in that, a person who wants to build things that actually matter for this country, for the world.
+        </p>
+        <p>
+            That kind of ambition, paired with the kind of heart you have? That's a combination the world desperately needs right now.
+        </p>
+        <p>
+            <strong style="color: #e2e8f0;">Get everything you want, Leisha. Every bit of it. You deserve it.</strong>
+        </p>
+        <div class="sig">
+            All my love and all my pride,<br>
+            Your Dad 💙
+        </div>
+    </div>
+
+    <!-- WISHES -->
+    <div class="card">
+        <div class="card-corner"></div>
+        <div class="card-corner-br"></div>
+        <div class="card-title">
+            <span class="icon">🌠</span>
+            <h2>Mission Wishes</h2>
+        </div>
+        <ul class="mission-list">
+            <li>
+                <span class="num">[01]</span>
+                <span>May every exam, every project, every late night in the lab take you one step closer to the engineer you're becoming — because that person is going to be remarkable.</span>
+            </li>
+            <li>
+                <span class="num">[02]</span>
+                <span>May the drones you design fly higher than any you've studied. May the robots you build carry a piece of your vision into the world.</span>
+            </li>
+            <li>
+                <span class="num">[03]</span>
+                <span>May DRDO — or wherever your path leads — see in you what we already know: that you are exactly the kind of mind and heart this country needs in defence and innovation.</span>
+            </li>
+            <li>
+                <span class="num">[04]</span>
+                <span>May hostel life give you friendships that last decades, stories worth telling, and the quiet confidence of someone who learned to stand on their own.</span>
+            </li>
+            <li>
+                <span class="num">[05]</span>
+                <span>May you always stay as grounded, as wise, and as genuinely caring as you are today — because technical brilliance is everywhere, but a brilliant person with a good heart is rare.</span>
+            </li>
+            <li>
+                <span class="num">[06]</span>
+                <span>And may you always know, wherever you are, however busy life gets — you are loved, missed, and rooted for every single day.</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="hr"></div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <p style="font-size:1.8em; margin-bottom:12px;">🛡️ ⚙️ 🚁 🤖</p>
+        <p>// Built with love · For Leisha Shinde · Engineer in the making</p>
+        <p style="margin-top:8px; color:#334155;" id="ts"></p>
+    </div>
+
+</div>
+
+<script>
+    // Timestamp
+    document.getElementById('ts').textContent =
+        '// ' + new Date().toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+
+    // Animate trait bars on scroll
+    const bars = document.querySelectorAll('.trait-bar');
+    const obs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.style.animationPlayState = 'running';
+        });
+    });
+    bars.forEach(b => { b.style.animationPlayState = 'paused'; obs.observe(b); });
+</script>
+</body>
+</html>
