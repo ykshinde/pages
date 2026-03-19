@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Ribhu — Wit Beyond Measure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --ravenclaw-blue: #0E1A40;
+            --ravenclaw-bronze: #946B2D;
+            --ravenclaw-light: #1a2f6b;
+            --star-gold: #FFD700;
+            --swift-pink: #e91e8c;
+            --parchment: #f5f0e8;
+            --ink: #2c2c2c;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background: var(--ravenclaw-blue);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Starfield background */
+        .stars {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--dur) ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            from { opacity: 0.1; transform: scale(0.8); }
+            to   { opacity: 1;   transform: scale(1.2); }
+        }
+
+        /* Floating magical sparkles */
+        .sparkle {
+            position: fixed;
+            font-size: 1.2em;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp linear infinite;
+            opacity: 0;
+        }
+
+        @keyframes floatUp {
+            0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 0.8; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        .page-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 820px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        /* HEADER */
+        .header {
+            text-align: center;
+            padding: 50px 20px 30px;
+        }
+
+        .ravenclaw-crest {
+            font-size: 5em;
+            display: block;
+            margin-bottom: 10px;
+            filter: drop-shadow(0 0 20px rgba(148, 107, 45, 0.8));
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px rgba(148, 107, 45, 0.5)); }
+            to   { filter: drop-shadow(0 0 30px rgba(148, 107, 45, 1)); }
+        }
+
+        .house-banner {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--ravenclaw-blue), var(--ravenclaw-light));
+            border: 2px solid var(--ravenclaw-bronze);
+            border-radius: 4px;
+            padding: 6px 24px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.85em;
+            color: var(--ravenclaw-bronze);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 4em;
+            color: var(--star-gold);
+            letter-spacing: 4px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5), 0 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.15em;
+            color: #a8b8e0;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* SORTING HAT INTRO */
+        .sorting-hat-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--ravenclaw-bronze);
+            border-radius: 12px;
+            padding: 30px 35px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sorting-hat-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--ravenclaw-bronze), transparent);
+        }
+
+        .sorting-hat-box .hat-icon {
+            font-size: 2.5em;
+            display: block;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .sorting-hat-box p {
+            color: #d4e0ff;
+            line-height: 1.9;
+            font-size: 1.05em;
+            text-align: center;
+            font-style: italic;
+        }
+
+        .sorting-hat-box .shout {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-size: 2em;
+            color: var(--star-gold);
+            text-align: center;
+            margin-top: 15px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(255,215,0,0.7);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* CARDS */
+        .card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(148, 107, 45, 0.4);
+            border-radius: 12px;
+            padding: 30px 35px;
+            margin: 25px 0;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--ravenclaw-bronze);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .card-icon {
+            font-size: 1.8em;
+        }
+
+        .card h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3em;
+            color: var(--ravenclaw-bronze);
+            letter-spacing: 1px;
+        }
+
+        .card p {
+            color: #c8d4f0;
+            line-height: 1.9;
+            font-size: 1.02em;
+        }
+
+        .card p + p {
+            margin-top: 14px;
+        }
+
+        /* MEMORY CARD */
+        .memory-card {
+            border-color: rgba(100, 149, 237, 0.5);
+        }
+
+        .memory-card h2 { color: cornflowerblue; }
+
+        .memory-list {
+            list-style: none;
+            margin-top: 12px;
+        }
+
+        .memory-list li {
+            color: #c8d4f0;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 1em;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .memory-list li:last-child { border-bottom: none; }
+
+        /* TAYLOR SWIFT SECTION */
+        .swift-card {
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.08), rgba(14, 26, 64, 0.8));
+            border-color: rgba(233, 30, 140, 0.4);
+        }
+
+        .swift-card h2 { color: #f06292; }
+
+        .era-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .era-badge {
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.4);
+            border-radius: 20px;
+            padding: 4px 14px;
+            font-size: 0.85em;
+            color: #f48fb1;
+            font-style: italic;
+        }
+
+        /* ROASTER SECTION */
+        .roaster-card {
+            background: linear-gradient(135deg, rgba(255, 165, 0, 0.06), rgba(14, 26, 64, 0.8));
+            border-color: rgba(255, 165, 0, 0.4);
+        }
+
+        .roaster-card h2 { color: #FFA500; }
+
+        .roast-warning {
+            display: inline-block;
+            background: rgba(255, 165, 0, 0.15);
+            border: 1px dashed rgba(255, 165, 0, 0.5);
+            border-radius: 8px;
+            padding: 10px 18px;
+            margin-top: 14px;
+            font-size: 0.92em;
+            color: #ffcc80;
+            font-style: italic;
+        }
+
+        /* WISHES SECTION */
+        .wishes-card {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.06), rgba(14, 26, 64, 0.8));
+            border-color: rgba(255, 215, 0, 0.5);
+        }
+
+        .wishes-card h2 { color: var(--star-gold); }
+
+        .wish-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .wish-list li {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            color: #d4e0ff;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            line-height: 1.7;
+            font-size: 1em;
+        }
+
+        .wish-list li:last-child { border-bottom: none; }
+
+        .wish-icon { font-size: 1.3em; flex-shrink: 0; margin-top: 1px; }
+
+        /* DAD'S LETTER */
+        .dad-letter {
+            background: var(--parchment);
+            border-radius: 12px;
+            padding: 40px 45px;
+            margin: 30px 0;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+        }
+
+        .dad-letter::before {
+            content: '✦';
+            position: absolute;
+            top: 15px; left: 50%;
+            transform: translateX(-50%);
+            color: var(--ravenclaw-bronze);
+            font-size: 1.2em;
+        }
+
+        .dad-letter h2 {
+            font-family: 'Cinzel', serif;
+            color: var(--ravenclaw-blue);
+            font-size: 1.4em;
+            text-align: center;
+            margin-bottom: 25px;
+            padding-top: 10px;
+        }
+
+        .dad-letter p {
+            color: var(--ink);
+            line-height: 2;
+            font-size: 1.05em;
+            text-align: left;
+        }
+
+        .dad-letter p + p { margin-top: 16px; }
+
+        .dad-letter .signature {
+            margin-top: 30px;
+            font-style: italic;
+            color: #444;
+            text-align: right;
+            font-size: 1.1em;
+        }
+
+        /* RAVENCLAW QUOTE */
+        .ravenclaw-quote {
+            text-align: center;
+            padding: 30px 20px;
+            margin: 20px 0;
+        }
+
+        .ravenclaw-quote blockquote {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4em;
+            color: var(--star-gold);
+            letter-spacing: 1px;
+            line-height: 1.6;
+            text-shadow: 0 0 20px rgba(255,215,0,0.3);
+        }
+
+        .ravenclaw-quote cite {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.75em;
+            color: var(--ravenclaw-bronze);
+            letter-spacing: 2px;
+            font-style: normal;
+            font-family: 'Lora', serif;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: rgba(255,255,255,0.3);
+            font-size: 0.85em;
+            font-style: italic;
+        }
+
+        .footer span {
+            display: block;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        /* DIVIDER */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--ravenclaw-bronze), transparent);
+            margin: 10px 0;
+            opacity: 0.5;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.8em; }
+            .dad-letter { padding: 30px 25px; }
+            .card { padding: 25px 20px; }
+            .ravenclaw-quote blockquote { font-size: 1.1em; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Starfield -->
+<div class="stars" id="stars"></div>
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+    <div class="header">
+        <span class="ravenclaw-crest">🦅</span>
+        <div class="house-banner">House Ravenclaw</div>
+        <h1>Ribhu</h1>
+        <p class="subtitle">Wit Beyond Measure is Man's Greatest Treasure</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- SORTING HAT -->
+    <div class="sorting-hat-box">
+        <span class="hat-icon">🎩</span>
+        <p>
+            "Hmm... a most curious mind. Sharp as a Severing Charm, memory like a Pensieve that never forgets, and a wit so quick it could outrun a Firebolt. Let me think... ah, who am I kidding. I've barely touched your head and I already know —"
+        </p>
+        <span class="shout">RAVENCLAW! 🦅</span>
+    </div>
+
+    <!-- MEMORY CARD -->
+    <div class="card memory-card">
+        <div class="card-header">
+            <span class="card-icon">🐘</span>
+            <h2>Memory of an Elephant</h2>
+        </div>
+        <p>
+            They say elephants never forget. Ribhu took that personally. While the rest of us have already forgotten what we had for breakfast, Ribhu casually brings up something that happened in 2019 with full timestamps, names, and HD footage — all from her own brain.
+        </p>
+        <ul class="memory-list">
+            <li>🧠 <span>Remembers that thing you said 6 years ago... word for word.</span></li>
+            <li>📅 <span>Can recall events with better accuracy than most people's photo albums.</span></li>
+            <li>🔍 <span>Human Google, but smarter and way more opinionated about the results.</span></li>
+            <li>⚡ <span>Certified walking encyclopedia with a personality upgrade.</span></li>
+        </ul>
+    </div>
+
+    <!-- TAYLOR SWIFT CARD -->
+    <div class="card swift-card">
+        <div class="card-header">
+            <span class="card-icon">🎸</span>
+            <h2>Swiftie at Heart</h2>
+        </div>
+        <p>
+            In a castle of wisdom and wit, there's always room for a little Fearless, some All Too Well, and a whole lot of Anti-Hero. Ribhu moves through life the same way Taylor moves through eras — boldly, brilliantly, and leaving everyone else wondering how she does it.
+        </p>
+        <p>
+            From Ravenclaw tower to the Eras Tour — she is, in every era, <strong style="color: #f48fb1;">her own main character.</strong>
+        </p>
+        <div class="era-badges">
+            <span class="era-badge">✨ Fearless</span>
+            <span class="era-badge">🎀 1989</span>
+            <span class="era-badge">🐍 Reputation</span>
+            <span class="era-badge">🌸 Lover</span>
+            <span class="era-badge">🌲 Folklore</span>
+            <span class="era-badge">🍂 Evermore</span>
+            <span class="era-badge">💙 Midnights</span>
+            <span class="era-badge">🔮 The Tortured Poets</span>
+        </div>
+    </div>
+
+    <!-- PRO ROASTER CARD -->
+    <div class="card roaster-card">
+        <div class="card-header">
+            <span class="card-icon">🔥</span>
+            <h2>Certified Pro Roaster™</h2>
+        </div>
+        <p>
+            Ribhu doesn't just roast people. She <em>slow-cooks</em> them. With seasoning. And a perfectly timed pause for dramatic effect.
+        </p>
+        <p>
+            Ravenclaws are known for their intelligence. Ribhu uses that intelligence primarily to craft devastating one-liners and then stare innocently as everyone processes what just happened.
+        </p>
+        <div class="roast-warning">
+            ⚠️ <strong>Official Warning:</strong> Do not challenge Ribhu to a battle of wits.<br>
+            You will lose. She will remember your loss. Forever. With receipts. 💀
+        </div>
+        <p style="margin-top: 16px; font-style: italic; color: #ffcc80;">
+            (Even the Sorting Hat felt slightly roasted. It chose Ravenclaw mostly in self-defense.)
+        </p>
+    </div>
+
+    <!-- DAD'S LETTER -->
+    <div class="dad-letter">
+        <h2>💙 A Letter from Dad</h2>
+        <p>
+            My dear Ribhu,
+        </p>
+        <p>
+            You are one of the most extraordinary people I know — and I mean that with full seriousness, coming from someone who has met a LOT of people. The way your mind works, the things you remember, the questions you ask, the spark in your eyes when you figure something out — it's nothing short of magical.
+        </p>
+        <p>
+            Whenever I feel tired, lost, or down — one conversation with you is enough to light me right back up. You are my battery charger, my favourite source of energy in this world. More powerful than coffee. More reliable than WiFi. And considerably funnier.
+        </p>
+        <p>
+            You are adorable and fierce, gentle and sharp, funny and wise — all at once. Don't ever let anyone convince you to be just one thing.
+        </p>
+        <p>
+            <strong>Keep learning. Keep exploring. Keep challenging yourself.</strong> The world is vast and full of puzzles, and you are exactly the kind of person born to solve them. Ravenclaw didn't just get lucky — they got <em>you</em>.
+        </p>
+        <p>
+            And yes — keep roasting too. A person who can make people laugh <em>and</em> think at the same time? That's a superpower.
+        </p>
+        <div class="signature">
+            With all my love, always,<br>
+            Your Dad 💙
+        </div>
+    </div>
+
+    <!-- RAVENCLAW QUOTE -->
+    <div class="ravenclaw-quote">
+        <blockquote>
+            "Wit beyond measure<br>is man's greatest treasure."
+        </blockquote>
+        <cite>— Rowena Ravenclaw</cite>
+    </div>
+
+    <!-- WISHES CARD -->
+    <div class="card wishes-card">
+        <div class="card-header">
+            <span class="card-icon">⭐</span>
+            <h2>Wishes for Your Journey</h2>
+        </div>
+        <ul class="wish-list">
+            <li>
+                <span class="wish-icon">📚</span>
+                <span>May you never stop learning — every book, every conversation, every stumble is a lesson in disguise.</span>
+            </li>
+            <li>
+                <span class="wish-icon">🔭</span>
+                <span>May you explore fearlessly — the world is so much bigger and stranger than any textbook, and you deserve to see all of it.</span>
+            </li>
+            <li>
+                <span class="wish-icon">⚡</span>
+                <span>May you challenge yourself always — comfort zones are just rooms you outgrow. Keep moving to bigger ones.</span>
+            </li>
+            <li>
+                <span class="wish-icon">🌙</span>
+                <span>May your memory serve you well — in remembering the people who love you, the lessons that shaped you, and all the good.</span>
+            </li>
+            <li>
+                <span class="wish-icon">🎵</span>
+                <span>May there always be music that feels like it was written exactly for you, for exactly this moment.</span>
+            </li>
+            <li>
+                <span class="wish-icon">🦅</span>
+                <span>May you soar — not just high, but far and wide and free, exactly as you were always meant to.</span>
+            </li>
+        </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        <span>🦅✨</span>
+        Made with love — for the sharpest, most adorable, most dangerously funny Ravenclaw there ever was.
+        <br><br>
+        <span id="date-display" style="color: rgba(255,255,255,0.2); font-size: 0.9em;"></span>
+    </div>
+
+</div>
+
+<script>
+    // Starfield
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 160; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        const size = Math.random() * 2.5 + 0.5;
+        star.style.cssText = `
+            width: ${size}px;
+            height: ${size}px;
+            top: ${Math.random() * 100}%;
+            left: ${Math.random() * 100}%;
+            --dur: ${(Math.random() * 3 + 1.5).toFixed(1)}s;
+            animation-delay: ${(Math.random() * 3).toFixed(1)}s;
+        `;
+        starsContainer.appendChild(star);
+    }
+
+    // Floating sparkles
+    const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '🦅', '🎵', '🔮'];
+    function createSparkle() {
+        const s = document.createElement('div');
+        s.classList.add('sparkle');
+        s.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+        s.style.cssText = `
+            left: ${Math.random() * 100}vw;
+            font-size: ${(Math.random() * 1 + 0.8).toFixed(1)}em;
+            animation-duration: ${(Math.random() * 10 + 12).toFixed(1)}s;
+            animation-delay: ${(Math.random() * 5).toFixed(1)}s;
+        `;
+        document.body.appendChild(s);
+        setTimeout(() => s.remove(), 18000);
+    }
+
+    for (let i = 0; i < 10; i++) setTimeout(createSparkle, i * 1200);
+    setInterval(createSparkle, 3000);
+
+    // Date
+    const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('date-display').textContent = new Date().toLocaleDateString('en-US', opts);
+</script>
+
+</body>
+</html>
